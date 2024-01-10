@@ -3,24 +3,26 @@ import os
 import sys
 import shutil
 
-def create_project_structure():
+def create_project_structure(directory="."):
     # Create main directories
-    os.makedirs("src")
-    os.makedirs("test")
-    os.makedirs("lib")
+    os.makedirs(os.path.join(directory, "src"))
+    os.makedirs(os.path.join(directory, "test"))
+    os.makedirs(os.path.join(directory, "lib"))
 
     # Create initial files
-    open(".gitignore", "w").close()
-    open("src/Main.java", "w").write(get_sample_java_code())
-    open("README.md", "w").write(get_readme_content())
+    open(os.path.join(directory, ".gitignore"), "w").close()
+    open(os.path.join(directory, "src/Main.java"), "w").write(get_sample_java_code())
+    open(os.path.join(directory, "README.md"), "w").write(get_readme_content())
 
     # Initialize Git repository
+    os.chdir(directory)
     os.system("git init")
 
     print("Project structure created successfully!")
 
-def undo_project_structure():
+def undo_project_structure(directory="."):
     # Remove Git repository
+    os.chdir(directory)
     shutil.rmtree(".git")
 
     # Remove initial files
@@ -64,5 +66,9 @@ if __name__ == "__main__":
         option = sys.argv[1]
         if option == "-r":
             undo_project_structure()
+            sys.exit()
+        elif option == "-n" and len(sys.argv) > 2:
+            directory = sys.argv[2]
+            create_project_structure(directory)
             sys.exit()
     create_project_structure()
