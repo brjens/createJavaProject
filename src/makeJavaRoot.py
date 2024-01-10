@@ -10,7 +10,7 @@ def create_project_structure(directory="."):
     os.makedirs(os.path.join(directory, "lib"))
 
     # Create initial files
-    open(os.path.join(directory, ".gitignore"), "w").close()
+    open(os.path.join(directory, ".gitignore"), "w").write(get_gitignore_content())
     open(os.path.join(directory, "src/Main.java"), "w").write(get_sample_java_code())
     open(os.path.join(directory, "README.md"), "w").write(get_readme_content())
 
@@ -59,6 +59,18 @@ This is a basic Java project created using the project structure script.
 3. Run the `Main` class to see the output "Hello, world!"
 
 Feel free to customize this README with your own project-specific details.
+"""
+
+def get_gitignore_content():
+    return """
+# Ignore compiled Java class files
+*.class
+
+# Ignore JAR files
+*.jar
+
+# Ignore .gitignore
+.gitignore
 """
 
 if __name__ == "__main__":
